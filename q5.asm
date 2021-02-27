@@ -22,11 +22,17 @@ main:
 	ecall
 	
 print_int:
-	
-	li t0, 10
-	div t1, a0, t0 # t1 = a0/10 => first digit 
-	mul t2, t1, t0 # t2 = first digit*10
-	sub t2, a0, t2 # t2 = second digit
+	li t0, 0
+	li t1, 0
+	loop:
+	bgt t0, a0, found_tens
+	addi t0, t0, 10
+	addi t1, t1, 1
+	j loop
+	found_tens:
+	addi t1, t1, -1 # t1 = first digit
+	addi t0, t0, -10 # t1 = first digit*10
+	sub t2, a0, t0 # t2 = second digit
 	
 	addi t2, t2, 48 # convert to ascii
 	addi t1, t1, 48 
